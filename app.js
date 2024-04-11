@@ -33,7 +33,7 @@ const enableBtn = () => {
 };
 
 const newGameBtn = () => {
-  turn();
+  turn("X");
   enableBtn();
   msg.classList.add("hide");
   newGame.classList.add("hide");
