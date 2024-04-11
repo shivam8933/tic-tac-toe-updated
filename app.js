@@ -9,6 +9,9 @@ let playerNames = document.querySelectorAll(".playerNames");
 
 let turnO = true;
 
+alert("Debugging message");
+
+
 let winningPattern = [
   [0, 1, 2],
   [0, 3, 6],
