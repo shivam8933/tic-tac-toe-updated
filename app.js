@@ -117,5 +117,5 @@ const matchDraw = (draw) => {
   disabledBtn();
 };
 
-newGame.addEventListener("click", newGameBtn);
-rstGame.addEventListener("click", rstGameBtn);
+newGame.addEventListener("click", () => newGameBtn());
+rstGame.addEventListener("click", () => rstGameBtn());
