@@ -1,126 +1,39 @@
-let boxes = document.querySelectorAll(".game_box");
-let gameDiv = document.querySelector(".game");
-let gameContainer = document.querySelector(".game_container");
-let msg = document.querySelector("#msg");
-let msgBox = document.querySelector(".msg_box");
-let newGame = document.querySelector(".newGameBtn");
-let rstGame = document.querySelector(".rstBtn");
-let playerNames = document.querySelectorAll(".playerNames");
+document.addEventListener('DOMContentLoaded', () => {
+    const startBtn = document.getElementById('start-btn');
+    const player1Input = document.getElementById('player1');
+    const player2Input = document.getElementById('player2');
+    const symbolSelect = document.getElementById('symbol');
+    const gameBoard = document.querySelector('.game-board');
 
-let turnO = true;
+    let currentPlayer = 1;
 
+    startBtn.addEventListener('click', () => {
+        const player1 = player1Input.value || 'Player 1';
+        const player2 = player2Input.value || 'Player 2';
+        const symbol = symbolSelect.value;
 
-alert("Debugging message");
+        startGame(player1, player2, symbol);
+    });
 
+    function startGame(player1, player2, symbol) {
+        // Clear previous game board
+        gameBoard.innerHTML = '';
 
+        // Create cells for game board
+        for (let i = 0; i < 9; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('game-cell');
+            cell.dataset.index = i;
+            cell.addEventListener('click', () => cellClicked(cell));
+            gameBoard.appendChild(cell);
+        }
 
-let winningPattern = [
-  [0, 1, 2],
-  [0, 3, 6],
-  [0, 4, 8],
-  [1, 4, 7],
-  [2, 5, 8],
-  [2, 4, 6],
-  [3, 4, 5],
-  [6, 7, 8],
-];
-
-const disabledBtn = () => {
-  for (let box of boxes) {
-    box.disabled = true;
-  }
-};
-const enableBtn = () => {
-  for (let box of boxes) {
-    box.disabled = false;
-    box.innerText = "";
-  }
-};
-
-const newGameBtn = () => {
-  turn();
-  enableBtn();
-  msg.classList.add("hide");
-  newGame.classList.add("hide");
-  gameDiv.classList.remove("hide");
-  rstGame.classList.remove("hide");
-  for (const names of playerNames) {
-    names.classList.remove("hide");
-  }
-};
-const rstGameBtn = () => {
-  enableBtn();
-  msg.classList.add("hide");
-  newGame.classList.add("hide");
-  gameDiv.classList.remove("hide");
-  rstGame.classList.remove("hide");
-};
-
-const turn = (firt) => {
-  if (firt && firt === "X") {
-    turnO = false;
-  } else if (firt && firt === "O") {
-    turnO = true;
-  }
-};
-
-boxes.forEach((game_box) => {
-  game_box.addEventListener("click", () => {
-    if (turnO) {
-      game_box.innerText = "O";
-      game_box.style.color = "#00b7ffb9";
-      turnO = false;
-    } else {
-      game_box.innerText = "X";
-      game_box.style.color = "#ffd900";
-      turnO = true;
+        // Start game logic
+        currentPlayer = 1;
+        // Additional game logic goes here...
     }
-    game_box.disabled = true;
-    checkWinner();
-  });
+
+    function cellClicked(cell) {
+        // Handle cell click event
+    }
 });
-
-function checkWinner() {
-  let isDraw = true;
-  for (pattern of winningPattern) {
-    let pos1Val = boxes[pattern[0]].innerText;
-    let pos2Val = boxes[pattern[1]].innerText;
-    let pos3Val = boxes[pattern[2]].innerText;
-
-    if (pos1Val != "" && pos2Val != "" && pos3Val != "") {
-      if (pos1Val === pos2Val && pos2Val === pos3Val) {
-        showWinner(pos2Val);
-        turn(pos1Val);
-        return;
-      }
-    }
-    if (pos1Val == "" || pos2Val == "" || pos3Val == "") {
-      isDraw = false;
-    }
-  }
-  if (isDraw) matchDraw();
-}
-
-const showWinner = (winner) => {
-  msg.innerText = `Congratulation Winner is ${winner}`;
-  msg.classList.remove("hide");
-  gameDiv.classList.add("hide");
-  newGame.classList.remove("hide");
-  rstGame.classList.add("hide");
-  for (const names of playerNames) {
-    names.classList.add("hide");
-  }
-  disabledBtn();
-};
-
-const matchDraw = (draw) => {
-  msg.innerText = `Match Draw! Nobody wins`;
-  msg.classList.remove("hide");
-  for (const names of playerNames) {
-    names.classList.add("hide");
-  }
-  disabledBtn();
-};
-
-newGame.addEventListener("click", newGameBtn);
-rstGame.addEventListener("click", rstGameBtn);
